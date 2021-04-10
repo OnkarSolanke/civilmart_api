@@ -39,8 +39,8 @@ class VendorController extends Controller
        $vendor =  Vendor::create([
             'first_name' => $request->firstName,
             'laste_name' => $request->lastName,
-            'email' => '',
-            'mobile' => '',
+            'email' => 'a',
+            'mobile' => 'a',
         ]);
         return $vendor;
     }
