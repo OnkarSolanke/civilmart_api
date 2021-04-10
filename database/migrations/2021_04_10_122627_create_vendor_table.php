@@ -18,7 +18,7 @@ class CreateVendorTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email', 100);
-            $table->string('email');
+            $table->smallInteger('mobile');
             $table->timestamps();
         });
     }
