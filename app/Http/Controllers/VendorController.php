@@ -14,7 +14,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-        // return 'hello';
+        return 'hello API';
     }
 
     /**
