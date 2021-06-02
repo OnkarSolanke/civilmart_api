@@ -93,6 +93,7 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <img src="{{ asset('storage/avatars/vendors/a.png') }}" alt="">
                 </div>
             </div>
         </div>

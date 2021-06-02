@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\WorkerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
@@ -14,4 +15,10 @@ Route::post('login',[AccessTokenController::class,'issueToken'])->middleware(['a
 
 Route::post('logout',[]);
 Route::resource('vendor','VendorController');
+Route::resource('worker','WorkerController');
+Route::post('worker/store','WorkerController@store');
+
+Route::resource('product','ProductController');
+Route::get('material/search','ProductController@materailSearch');
+
 Route::post('vendor/store','VendorController@store');

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Address;
-use App\User;
-use App\Vendor;
+use App\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class VendorController extends Controller
+
+class WorkerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendor = Vendor::with('address')->get();
-        return $vendor;
+        $Worker = Worker::with('address')->get();
+        return $Worker;
     }
 
     /**
@@ -39,14 +39,11 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());   
-        $user = User::where('email', '=', $request->email)->first();
         $rules = array( 
             'firstName'  => 'required',
             'midleName'  => 'required',
             'lastName' => 'required',
             'mobile' => 'required|numeric',
-            'adhar' => 'required|numeric',
         );
         $v = Validator::make($request->all(), $rules);
         if ( ! $v->passes()){
@@ -58,14 +55,6 @@ class VendorController extends Controller
                 'status_code' => 305,
                 'massage' => $verrors
             );
-        }
-        // dd(isset($user));
-        if (isset($user)) {
-            return array(
-                'status' => 'Error',
-                'status_code' => 305,
-                'massage' => ['Email Id Already Exist']
-            );  
         }
         $fileNameToStore = '';
         $path = '';
@@ -80,31 +69,25 @@ class VendorController extends Controller
             // Filename to store
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
             // Upload Image
-            $path = $request->file('file')->storeAs('public/avatars/vendors',$fileNameToStore);
+            $path = $request->file('file')->storeAs('public/avatars/workers',$fileNameToStore);
 
         }
-
-        $user = User::create([
-            'name' => $request->firstName . ' ' . $request->lastName,
-            'email' => $request->email,
-            'password' => bcrypt('plus@123'),
-        ]);
-
-       $vendor =  Vendor::create([
+        $vendor =  Worker::create([
             'first_name' => $request->firstName,
             'midle_name' => $request->midleName,
             'last_name' => $request->lastName,
             'email' => $request->email,
             'mobile' => $request->mobile,
-            'user_id' => $user->id,
             'adhar_no' => $request->adhar,
             'about' => $request->about,
             'avtar' => $fileNameToStore,
+            'skill' => $request->skill,
+            'qualification' => $request->qualif,
             'avtar_full_path' => $path,
         ]);
 
         Address::create([
-            'user_id' => $user->id,
+            'user_id' => $vendor->id,
             'address' => $request->address,
             'city' => $request->city,
             'country' => $request->country,
@@ -113,7 +96,7 @@ class VendorController extends Controller
         ]);
 
         Address::create([
-            'user_id' => $user->id,
+            'user_id' => $vendor->id,
             'address' => $request->tempAddress,
             'city' => $request->tempCity,
             'country' => $request->tempCountry,
@@ -126,21 +109,21 @@ class VendorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Vendor  $vendor
+     * @param  \App\Worker  $worker
      * @return \Illuminate\Http\Response
      */
-    public function show(Vendor $vendor)
+    public function show(Worker $worker)
     {
-        
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Vendor  $vendor
+     * @param  \App\Worker  $worker
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vendor $vendor)
+    public function edit(Worker $worker)
     {
         //
     }
@@ -149,10 +132,10 @@ class VendorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Vendor  $vendor
+     * @param  \App\Worker  $worker
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vendor $vendor)
+    public function update(Request $request, Worker $worker)
     {
         //
     }
@@ -160,10 +143,10 @@ class VendorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Vendor  $vendor
+     * @param  \App\Worker  $worker
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vendor $vendor)
+    public function destroy(Worker $worker)
     {
         //
     }

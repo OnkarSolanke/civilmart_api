@@ -8,7 +8,8 @@ class Vendor extends Model
 {
     protected $table = 'vendor';
     protected $guarded = ['id'];
-    protected $fillable = [
-        'first_name','last_name' ,'email', 'mobile','user_id','midle_name'
-    ];
+
+    public function address(){
+       return $this->hasMany(Address::class,'user_id','user_id');
+    }
 }

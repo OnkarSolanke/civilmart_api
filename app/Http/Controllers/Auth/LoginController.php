@@ -62,7 +62,7 @@ class LoginController extends Controller
     }
 
     protected function login(ServerRequestInterface $request){
-dd($request->all());
+dd($request);
         $credentials = array(
             'email' => $request->username,
             'password' => $request->password
