@@ -9,7 +9,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable,HasApiTokens;
+    use Notifiable,HasApiTokens,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +39,6 @@ class User extends Authenticatable
     ];
 
     public function vendor(){
-        $this->hasOne(Vendor::class);
+        return $this->hasOne(Vendor::class);
     }
 }

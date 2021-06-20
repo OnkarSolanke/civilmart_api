@@ -61,8 +61,7 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 
-    protected function login(ServerRequestInterface $request){
-dd($request);
+    protected function login(Request $request){
         $credentials = array(
             'email' => $request->username,
             'password' => $request->password
@@ -72,7 +71,6 @@ dd($request);
             
             $data = Auth::user();
             $user_id = $data['id'];
-            // $request->session()->put('state', $state = Str::random(40));
 
             $query = http_build_query([
                 'client_id' => 'client-id',
@@ -81,22 +79,10 @@ dd($request);
                 'scope' => '',
                 'state' => '',
             ]);
-            // $ac = new AccessTokenController;
             $controller = app()->make('Laravel\Passport\Http\Controllers\AccessTokenController');
-            dd($controller->issueToken($request));
-            // $reponce = Http::asForm()->get('http://localhost:8000/',[
-            //     'grant_type' => 'password',
-            //     'client_id' => $request->get('client-id'),
-            //     'client_secret' => $request->get('client-secret'),
-            //     // 'redirect_uri' => 'http://localhost:3000/admin/dashboard',
-            // ]);
-            // dd($reponce->json());
-            return redirect('http://localhost:8000/oauth/authorize?'.$query);
-            // $employee = Employee::where('user_id',$user_id)->with('company:id,name')->first();
-            return response()->json([ 'status' => 200,'success'=> 1,'message'=>'logged in Sucessfully']);
+            return response()->json([ 'status' => 200,'success'=> 1,'message'=>'logged in Sucessfully','access_token' => Auth::user()->createToken('Auth Token')->accessToken ,'user' => Auth::user() ]);
         }else{
             return response()->json([ 'status' => 401, 'success'=> 0,'message'=>'loggin failed , Invalid Username or Password']);
         }
     }
-
 }

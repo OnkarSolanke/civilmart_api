@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
 class ProductController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['auth.vendor','auth:api'])->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +22,14 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if($request->has('key')){
-            // dd(strtoupper($request->key));
             return Product::where('name',$request->key)->get();
 
             return Product::whereRaw("UPPER('name') LIKE '%". strtoupper($request->key)."%'")->get();
         }
-        return Product::get();
+        return response()->json([
+            'products' =>  Product::get(),
+            'units' => Unit::get()
+        ]);
     }
     public function materailSearch(Request $request)
     {
@@ -85,7 +92,7 @@ class ProductController extends Controller
 
         }
        $product = Product::create([
-           'user_id' => 1,
+           'user_id' => Auth::user()->id,
            'name' => $request->name,
            'price' => $request->price,
            'unit' => $request->unit,
