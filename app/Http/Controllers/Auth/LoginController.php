@@ -67,7 +67,6 @@ class LoginController extends Controller
             'password' => $request->password
         );
         if(Auth::attempt($credentials)){
-            // dd($credentials);
             
             $data = Auth::user();
             $user_id = $data['id'];
