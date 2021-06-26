@@ -21,13 +21,21 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $products = Product::get();
         if($request->has('key')){
-            return Product::where('name',$request->key)->get();
+            $productsFilted = [];
 
-            return Product::whereRaw("UPPER('name') LIKE '%". strtoupper($request->key)."%'")->get();
+            foreach ($products as $key => $product) {
+                $a = $product->name . ' '. $product->description;
+                $search = $request->key;
+                if(preg_match("/{$search}/i", $a)) {
+                    array_push($productsFilted,$product);
+                }
+            }
+            $products = $productsFilted;
         }
         return response()->json([
-            'products' =>  Product::get(),
+            'products' =>  $products,
             'units' => Unit::get()
         ]);
     }
