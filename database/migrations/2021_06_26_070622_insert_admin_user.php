@@ -15,6 +15,7 @@ class InsertAdminUser extends Migration
     {
         DB::table('users')->insert(
             array(
+                'name' =>'CivilShpee Admin',
                 'email' => 'admin@civilshopee.com',
                 'type' => 'ADMIN',
                 'password' =>  bcrypt('plus@123'),
